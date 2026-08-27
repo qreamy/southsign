@@ -1,7 +1,5 @@
 import type { NextConfig } from 'next';
 
-const isDev = process.env.NODE_ENV === 'development';
-
 const nextConfig: NextConfig = {
   poweredByHeader: false,
 
@@ -10,7 +8,7 @@ const nextConfig: NextConfig = {
       "default-src 'self'",
       "img-src 'self' data: blob: https:",
       "style-src 'self' 'unsafe-inline'",
-      `script-src 'self' 'unsafe-eval'${isDev ? " 'unsafe-inline'" : ''}`,
+      "script-src 'self' 'unsafe-inline' 'unsafe-eval'",
       "connect-src 'self' https://*.supabase.co",
       "frame-src 'self' blob: https://*.supabase.co",
       "font-src 'self' data:",
