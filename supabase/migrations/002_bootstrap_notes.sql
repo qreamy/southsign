@@ -1,0 +1,4 @@
+-- After creating your first Supabase Auth user, run this ONCE with your values:
+-- insert into public.organizations(name,slug) values ('Southbase','southbase') returning id;
+-- insert into public.organization_users(organization_id,user_id,role)
+-- values ('ORG_UUID_HERE','AUTH_USER_UUID_HERE','owner');

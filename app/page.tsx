@@ -1,0 +1,2 @@
+import Link from 'next/link';
+export default function Home(){return <main className="shell hero"><div className="card stack"><div className="brand">{process.env.NEXT_PUBLIC_APP_NAME || 'Southbase Sign'}</div><h1>Elektronisk signering, utan onödiga steg.</h1><p className="muted">Intern MVP för uppladdning, utskick, signering, verifiering och audit trail. Tjänsten är avsedd för vanliga elektroniska signaturer och gör inga anspråk på att vara en kvalificerad elektronisk underskrift.</p><div><Link className="btn" href="/auth/login">Administratör →</Link></div></div></main>}

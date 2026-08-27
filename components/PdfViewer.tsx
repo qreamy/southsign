@@ -1,0 +1,8 @@
+'use client';
+import { useEffect,useRef,useState } from 'react';
+export default function PdfViewer({url}:{url:string}){
+  const canvasRef=useRef<HTMLCanvasElement>(null);const [doc,setDoc]=useState<any>(null);const [page,setPage]=useState(1);const [pages,setPages]=useState(0);const [scale,setScale]=useState(1.15);
+  useEffect(()=>{let alive=true;(async()=>{const pdfjs=await import('pdfjs-dist');pdfjs.GlobalWorkerOptions.workerSrc=new URL('pdfjs-dist/build/pdf.worker.min.mjs',import.meta.url).toString();const loaded=await pdfjs.getDocument(url).promise;if(alive){setDoc(loaded);setPages(loaded.numPages)}})();return()=>{alive=false}},[url]);
+  useEffect(()=>{if(!doc||!canvasRef.current)return;let task:any;(async()=>{const p=await doc.getPage(page);const viewport=p.getViewport({scale});const canvas=canvasRef.current!;const ctx=canvas.getContext('2d')!;canvas.width=viewport.width;canvas.height=viewport.height;task=p.render({canvasContext:ctx,viewport});await task.promise})().catch(()=>{});return()=>task?.cancel?.()},[doc,page,scale]);
+  return <div><div className="actions" style={{marginBottom:10}}><button className="btn secondary" onClick={()=>setPage(p=>Math.max(1,p-1))}>←</button><span className="muted" style={{padding:10}}>{page} / {pages||'…'}</span><button className="btn secondary" onClick={()=>setPage(p=>Math.min(pages,p+1))}>→</button><button className="btn secondary" onClick={()=>setScale(s=>Math.max(.7,s-.15))}>−</button><button className="btn secondary" onClick={()=>setScale(s=>Math.min(2.4,s+.15))}>+</button></div><div className="pdfbox"><canvas ref={canvasRef} style={{maxWidth:'100%',height:'auto',display:'block',margin:'0 auto',background:'white',boxShadow:'0 4px 18px rgba(0,0,0,.12)'}}/></div></div>
+}
